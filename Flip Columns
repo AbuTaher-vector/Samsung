@@ -1,0 +1,41 @@
+#include<iostream>
+#include<cmath>
+#include<algorithm>
+#include<vector>
+#include<cstdio>
+using namespace std;
+void flip(int j,vector<vector<int> >&v,int n){
+     for(int i=0;i<n;i++){
+          if(v[i][j]==1) v[i][j]=0;
+          else v[i][j]=1;
+     }
+}
+void find(int k,vector<vector<int> >&v,int &ans,int n,int m){
+    if(k==0){
+      int cnt=0;
+      for(int i=0;i<n;i++){
+          int t=0;
+          for(int j=0;j<m;j++) if(v[i][j]==1) t++;
+          if(t==m) cnt++;
+      }
+      ans = max(ans,cnt);
+      return;
+    }
+    for(int j=0;j<m;j++){
+      flip(j,v,n);
+      find(k-1,v,ans,n,m);
+      flip(j,v,n);
+    }
+}
+int main(){
+     int n,m,k;
+     cin>>n>>m>>k;
+     vector<vector<int> >v(n+1,vector<int>(m+1,0));
+     for(int i=0;i<n;i++){
+      for(int j=0;j<m;j++) cin>>v[i][j];
+     }
+    int ans = 0;
+    find(k,v,ans,n,m);
+    cout<<ans<<"\n";
+}
+// Link : https://www.hackerrank.com/contests/target-samsung-13-nov19/challenges/flip-columns
