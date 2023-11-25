@@ -1,0 +1,40 @@
+#include<cmath>
+#include<cstdio>
+#include<vector>
+#include<algorithm>
+#include<climits>
+#include<iostream>
+using namespace std;
+void find(int l,int r,vector<vector<int> >&v,int &ans){
+      if(l==r){
+          int c=0;
+          c+=abs(v[0][0]-v[2][0])+abs(v[0][1]-v[2][1]);
+          c+=abs(v[1][0]-v[r][0])+abs(v[1][1]-v[r][1]);
+          for(int i=2;i<r;i++){
+               c+=abs(v[i][0]-v[i+1][0])+abs(v[i][1]-v[i+1][1]);
+          }
+          ans = min(ans,c);
+          return;
+      }
+      for(int i=l;i<=r;i++){
+          swap(v[i][0],v[l][0]);
+          swap(v[i][1],v[l][1]);
+          find(l+1,r,v,ans);
+          swap(v[i][0],v[l][0]);
+          swap(v[i][1],v[l][1]);
+      }
+}
+int main(){
+   for(int k=1;k<=10;k++){
+       int ans=INT_MAX;
+       int n;
+       cin>>n;
+       vector<vector<int> >v(n+2,vector<int>(2,0));
+       cin>>v[0][0]>>v[0][1];
+       cin>>v[1][0]>>v[1][1];
+       for(int i=2;i<n+2;i++) cin>>v[i][0]>>v[i][1];
+       find(2,n+1,v,ans);
+       cout<<"# "<<k<<" "<<ans<<"\n";
+   }
+}
+// Link : https://www.hackerrank.com/contests/target-samsung-13-nov19/challenges/kim-and-refrigerators/problem
