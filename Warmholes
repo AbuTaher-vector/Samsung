@@ -1,0 +1,39 @@
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+#include<iostream>
+using namespace std;
+void find(int a,int b,int c,int d,int val,vector<vector<int> >&v,int &ans,vector<int>&vis){
+  ans=min(ans,abs(a-c)+abs(b-d)+val);
+  for(int i=0;i<v.size();i++){
+     if(vis[i]==0){
+      vis[i]=1;
+      find(v[i][2],v[i][3],c,d,val+abs(a-v[i][0])+abs(b-v[i][1])+v[i][4],v,ans,vis);
+      find(v[i][0],v[i][1],c,d,val+abs(a-v[i][2])+abs(b-v[i][3])+v[i][4],v,ans,vis);
+      vis[i]=0;
+     }
+  }
+
+}
+void code(){
+   int ans = INT_MAX;
+   int n;
+   cin>>n;
+   vector<vector<int> >v(n,vector<int>(5,0));
+   int a,b,c,d;
+   cin>>a>>b>>c>>d;
+   for(int i=0;i<n;i++){
+      for(int j=0;j<5;j++) cin>>v[i][j];
+   }
+   vector<int>vis(n+1,0);
+   find(a,b,c,d,0,v,ans,vis);
+   cout<<ans<<"\n";
+}
+int main(){
+  int tt;
+  cin>>tt;
+  while(tt--) code();
+}
+// Link : https://www.hackerrank.com/contests/target-samsung-13-nov19/challenges/warmholes/problem
