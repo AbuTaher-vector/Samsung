@@ -1,0 +1,35 @@
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+#include<iostream>
+using namespace std;
+int person[3],gate[3];
+int n,sum=0;
+int ans=INT_MAX;
+void find(int index,int x,int c){
+    if(c==sum){
+        ans=min(ans,x);
+        return;
+    }
+    if(index==n+1) return;
+    for(int i=0;i<3;i++){
+        if(person[i]>0){
+            person[i]--;
+            find(index+1,x+abs(gate[i]-index)+1,c+1);
+            person[i]++;
+        }
+    }
+    find(index+1,x,c);
+}
+int main(){
+    cin>>n;
+    for(int i=0;i<3;i++) cin>>gate[i];
+    for(int i=0;i<3;i++){
+        cin>>person[i];
+        sum+=person[i];
+    }
+    find(1,0,0);
+    cout<<ans<<"\n";
+}
