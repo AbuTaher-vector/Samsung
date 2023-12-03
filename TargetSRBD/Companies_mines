@@ -1,0 +1,42 @@
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+#include<iostream>
+using namespace std;
+void find(int i,vector<int>&v,int companies,int m,int mn,int mx,int c,int &ans,vector<int>&vis,int sum){
+     if(vis[i]){
+       int a = max(sum,mx);
+       int b = min(sum,mn);
+       if(c==companies-1){
+          ans = min(ans,a-b);
+       }
+       return;
+     }
+     vis[i]=1;
+     int j = (i+1)%m;
+     find(j,v,companies,m,mn,mx,c,ans,vis,sum+v[i]);
+     int x = max(sum,mx);
+     int y = min(sum,mn);
+     find(j,v,companies,m,y,x,c+1,ans,vis,v[i]);
+     vis[i]=0;
+}
+void code(){
+  int n,m;
+  cin>>n>>m;
+  vector<int>v(m+1);
+  for(int i=0;i<m;i++) cin>>v[i];
+  int ans;
+  vector<int>vis(m+1,0);
+  for(int i=0;i<m;i++){
+      find(i,v,n,m,INT_MAX,INT_MIN,0,ans,vis,0);
+  }
+  cout<<ans<<"\n";
+}
+int main(){
+    int tt;
+    cin>>tt;
+    while(tt--) code();
+}
+//Link : https://www.careercup.com/question?id=5740719907012608
