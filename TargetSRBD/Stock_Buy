@@ -1,0 +1,17 @@
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+#include<iostream>
+using namespace std;
+int main(){
+    int price[] = {100, 180, 260, 310, 40, 535, 695};
+    int n = sizeof(price)/sizeof(price[0]);
+    int ans=0;
+    for(int i=1;i<n;i++){
+      if(price[i]>price[i-1]) ans+=(price[i]-price[i-1]);
+    }
+    cout<<ans<<"\n";
+}
+// https://www.geeksforgeeks.org/stock-buy-sell/
