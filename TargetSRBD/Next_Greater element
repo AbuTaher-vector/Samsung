@@ -1,0 +1,43 @@
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+#include<iostream>
+using namespace std;
+void code(){
+  int n;
+  cin>>n;
+  string s = to_string(n);
+        int ind=-1;
+       for(int i=s.size()-1;i>0;i--){
+           if(s[i-1]<s[i]){
+               ind = i-1;
+               break;
+           }
+       }
+        if(ind==-1){
+          cout<<-1<<"\n";
+          return;
+        }
+        char x = s[ind];
+        int in,t=10;
+        for(int i=s.size()-1;i>ind;i--){
+            if(s[i]>x){
+                if(s[i]-x<=t){
+                    in=i;
+                    t=s[i]-x;
+                }
+            }
+        }
+        swap(s[ind],s[in]);
+        sort(s.begin()+ind+1,s.end());
+        long long int k = stoll(s);
+        cout<<k<<"\n";
+}
+int main(){
+   int tt;
+   cin>>tt;
+   while(tt--) code();
+}
+//Link : https://www.geeksforgeeks.org/find-next-greater-number-set-digits/
