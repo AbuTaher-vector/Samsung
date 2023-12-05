@@ -1,0 +1,52 @@
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+#include<iostream>
+using namespace std;
+struct point
+{
+  int x,y;
+};
+vector<point>c;
+point po;
+int triangle(point po,point a,point b){
+    return (po.x*(a.y-b.y)+a.x*(b.y-po.y)+b.x*(po.y-a.y));
+}
+int sqdis(point a,point b){
+    return ((a.x-b.x)*(a.x-b.x))+((a.y-b.y)*(a.y-b.y));
+}
+int cmp(point a,point b){
+   if(triangle(po,a,b)==0) return sqdis(po,a)<sqdis(po,b);
+   double d1x = a.x-po.x;double d1y = a.y-po.y;
+   double d2x = b.x-po.x;double d2y = b.y-po.y;
+   return (atan2(d1y,d1x)-atan2(d2y,d2x))<0;
+}
+void conveHull(vector<point>&p,int n){
+       int l=0;
+       for(int i=1;i<n;i++){
+          if(p[i].x<p[l].x) l=i;
+       }
+       swap(p[0],p[l]);
+       po=p[0];
+       sort(p.begin()+1,p.end(),cmp);
+       for(int i=0;i<3;i++) c.push_back(p[i]);
+       for(int i=3;i<n;i++){
+          while(1){
+              int n = c.size();
+              if(triangle(c[n-2],c[n-1],p[i])<=0) c.pop_back();
+              else break;
+          }
+          c.push_back(p[i]);
+       }
+}
+int main(){
+   int n;
+   cin>>n;
+   vector<point>p(n);
+   for(int i=0;i<n;i++) cin>>p[i].x>>p[i].y;
+   conveHull(p,n);
+   for(int i=0;i<c.size();i++) cout<<c[i].x<<" "<<c[i].y<<"\n";
+}
+// Link : https://www.geeksforgeeks.org/convex-hull-using-jarvis-algorithm-or-wrapping/
