@@ -1,0 +1,87 @@
+#include<climits>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<vector>
+#include<queue>
+#include<iostream>
+using namespace std;
+int n,c;
+int ar[21][21],ans[21][21],vis[21][21];
+struct point{
+  int x,y;
+}rare[6];
+struct t{
+  int x,y,dis;
+};
+int dx[4] = {1,-1,0,0};
+int dy[4] = {0,0,1,-1};
+bool issafe(int x,int y){
+   if(x>=0 && y>=0 && x<n && y<n && ar[x][y]==1 && vis[x][y]==0) return true;
+   else return false;
+}
+void find(int i,int j){
+    queue<t>q;
+    t a;
+    a.x=i;
+    a.y=j;
+    a.dis=0;
+    q.push(a);
+    vis[i][j]=1;
+    while(!q.empty()){
+         a = q.front();
+         q.pop();
+         int x = a.x;
+         int y = a.y;
+         int dis = a.dis;
+         ans[x][y] = dis;
+         for(int k=0;k<4;k++){
+             int nx = x+dx[k];
+             int ny = y+dy[k];
+             if(issafe(nx,ny)){
+                 vis[nx][ny]=1;
+                 a.x=nx;
+                 a.y=ny;
+                 a.dis=dis+1;
+                 q.push(a);
+             }
+         }
+         
+    }
+}
+int main(){
+     int t;
+     cin>>t;
+     for(int l=1;l<=t;l++){
+        cin>>n>>c;
+     for(int i=0;i<c;i++) {
+        int a,b;
+        cin>>a>>b;
+       rare[i].x=a-1;
+       rare[i].y=b-1;
+    }
+     for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++) cin>>ar[i][j];
+     }
+     int a=INT_MAX;
+     for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            if(ar[i][j]==1){
+              memset(ans,10000,sizeof(ans));
+              int flag=1,longest = -1;
+              memset(vis,0,sizeof(vis));
+              find(i,j);
+              for(int k=0;k<c;k++){
+                 if(ans[rare[k].x][rare[k].y]==1000){
+                     flag=0;
+                     break;
+                 }else longest = max(longest,ans[rare[k].x][rare[k].y]);
+              }
+              if(flag) a = min(a,longest);
+            }
+        }
+     }
+       cout<<"#"<<l<<" "<<a<<"\n";
+     }   
+}
+// Link : https://www.careercup.com/question?id=5707238197952512
