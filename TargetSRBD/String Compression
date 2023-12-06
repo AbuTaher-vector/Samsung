@@ -1,0 +1,36 @@
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+#include<iostream>
+using namespace std;
+int main(){
+        string chars;
+        cin>>chars;
+        string s;
+        int cnt=1;
+        for(int i=1;i<chars.size();i++){
+              if(chars[i]==chars[i-1]) cnt++;
+              else{
+                  s.push_back(chars[i-1]);
+                  string a;
+                  while(cnt>0){
+                      a.push_back(cnt%10);
+                      cnt/=10;
+                  }
+                  for(int j=a.size()-1;j>=0;j--) s.push_back(a[j]+'0');
+                  cnt=1;
+              }
+        }
+                  s.push_back(chars.back());
+                  string a;
+                  while(cnt>0){
+                      a.push_back(cnt%10+'0');
+                      cnt/=10;
+                  }
+                  for(int i=a.size()-1;i>=0;i--) s.push_back(a[i]);
+        if(chars.size()<s.size()) cout<<chars<<"\n";
+         else cout<<s<<"\n";
+}
+// Link : https://www.byte-by-byte.com/stringcompression/
