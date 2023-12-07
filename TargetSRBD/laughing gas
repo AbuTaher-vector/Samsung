@@ -1,0 +1,61 @@
+#include<climits>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<vector>
+#include<queue>
+#include<iostream>
+using namespace std;
+int arr[101][101];
+int ans,n,m,x,y;
+struct point{
+  int x,y,dis;
+};
+int dx[4]={1,-1,0,0};
+int dy[4]={0,0,1,-1};
+bool issafe(int x,int y){
+   if(x>=0 && y>=0 && x<=n && y<=m && arr[x][y]==1) return true;
+   else return false;
+}
+void find(int x,int y){
+     queue<point>q;
+     point t;
+     t.x=x;
+     t.y=y;
+     t.dis=0;
+     arr[x][y]=0;
+     q.push(t);
+     while(!q.empty()){
+        t = q.front();
+        q.pop();
+        x = t.x;
+        y = t.y;
+        int dis = t.dis;
+        for(int i=0;i<4;i++){
+          int nx = x+dx[i];
+          int ny = y+dy[i];
+          ans=dis+1;
+          if(issafe(nx,ny)){
+                t.x=nx;
+                t.y=ny;
+                t.dis=dis+1;
+                arr[nx][ny]=0;
+                q.push(t);
+          }
+        }
+     }
+}
+int main(){
+      int test;
+      cin>>test;
+      for(int i=1;i<=test;i++){
+          cin>>m>>n;
+          for(int j=1;j<=n;j++){
+             for(int k=1;k<=m;k++) cin>>arr[j][k];
+          }
+          cin>>y>>x;
+          find(x,y);
+          cout<<"#"<<i<<" "<<ans<<"\n";
+      }
+}
+// link : https://www.cnblogs.com/kingshow123/p/practicec1.html
