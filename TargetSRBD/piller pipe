@@ -1,0 +1,31 @@
+#include<climits>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<vector>
+#include<iostream>
+using namespace std;
+void find(int n,vector<int>&v,vector<int>&vis,int p1,int p2,int &ans){
+     if(p1==p2){
+        ans=max(ans,p1);
+     }
+     for(int i=0;i<n;i++){
+        if(vis[i]==0){
+          vis[i]=1;
+          find(n,v,vis,p1+v[i],p2,ans);
+          find(n,v,vis,p1,p2+v[i],ans);
+          vis[i]=0;
+        }
+     }
+}
+int main(){
+    int n;
+    cin>>n;
+    vector<int>v(n+1);
+    for(int i=0;i<n;i++) cin>>v[i];
+    int ans=-1;
+    vector<int>vis(n+1);
+    find(n,v,vis,0,0,ans);
+    cout<<ans<<"\n";
+}
+//link : https://www.geeksforgeeks.org/samsung-r-d-noida-question-september-2018/
