@@ -1,0 +1,36 @@
+#include<climits>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<vector>
+#include<iostream>
+using namespace std;
+int find(int a,int b,int k,vector<int>&v,int n){
+     int cnt=0;
+     for(int i=a;i<=b;i++){
+        int t = i;
+        vector<int>c(10);
+        while(t>0){
+           c[t%10]++;
+           t/=10;
+        }
+        int count=0;
+        for(int j=0;j<n;j++){
+           count+=c[v[j]];
+        }
+
+        if(count<k) cnt++;
+     }
+     return cnt;
+}
+int main(){
+    int a,b,k;
+    cin>>a>>b>>k;
+    int n;
+    cin>>n;
+    vector<int>v(n);
+    for(int i=0;i<n;i++) cin>>v[i];
+    int cnt=0;
+    cout<<find(a,b,k,v,n)<<"\n";
+}
+// Link : https://www.geeksforgeeks.org/samsung-interview-experience-set-40-campus-white-box-testing/
