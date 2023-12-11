@@ -1,0 +1,61 @@
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+#include<iostream>
+using namespace std;
+struct Node{
+   int data;
+   Node *left;
+   Node *right;
+};
+struct Node *newNode(int data){
+    Node *node = new Node;
+    node->data = data;
+    node->left = node->right = NULL;
+    return (node);
+}
+struct Info{
+    int sz;
+    int max;
+    int min;
+    int ans;
+    int isBST;
+};
+Info find(Node *root){
+     if(root == NULL) return {0,INT_MIN,INT_MAX,0,true};
+     if(root->left == NULL && root->right == NULL) return {1,INT_MIN,INT_MAX,1,true};
+
+     Info l = find(root->left);
+     Info r = find(root->right);
+
+      Info re;
+     r.sz = 1+l.sz+r.sz;
+     if(l.isBST && r.isBST && l.max<root->data && r.min>root->data){
+         re.min = min(l.min,root->data);
+         re.max = max(r.max,root->data);
+
+         re.ans = 1+l.ans+r.ans;
+         re.isBST = true;
+         return re;
+     }
+     re.ans = max(l.ans,r.ans);
+     re.isBST = false;
+     return re;
+}
+int main(){
+  /* Let us construct the following Tree
+        60
+       /  \
+      65  70
+     /
+    50 */
+
+  Node *root  = newNode(60);
+  root->left = newNode(65);
+  root->right = newNode(70);
+  root->left->left = newNode(50);
+  cout<<find(root).ans<<"\n";
+}
+// Link : https://www.geeksforgeeks.org/largest-bst-binary-tree-set-2/
