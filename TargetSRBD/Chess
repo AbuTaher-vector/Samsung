@@ -1,0 +1,70 @@
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+#include<queue>
+#include<iostream>
+using namespace std;
+int ans,n,m;
+int arr[30][30];
+struct point{
+  int x;
+  int y;
+  int dis;
+};
+bool f = false;
+int dx[8]={2,2,-2,-2,1,1,-1,-1};
+int dy[8]={1,-1,1,-1,2,-2,2,-2};
+bool valid(int x,int y){
+   if(x>=1 && y>=1 && x<=n && y<=m && arr[x][y]==0) return true;
+   else return false;
+}
+void find(){
+    cin>>n>>m;
+    int r1,c1,r2,c2;
+    cin>>r1>>c1>>r2>>c2;
+    point r;
+    r.x = r1;
+    r.y = c1;
+    r.dis = 0;
+    queue<point>q;
+    q.push(r);
+    arr[r.x][r.y]=2;
+    while(!q.empty()){
+       if(f) break;
+         r = q.front();
+         q.pop();
+         int x = r.x;
+         int y = r.y;
+         int dis = r.dis;
+         for(int i=0;i<8;i++){
+              int nx = x+dx[i];
+              int ny = y+dy[i];
+              if(valid(nx,ny)){
+                   if(nx==r2 && ny==c2){
+                      ans = dis+1;
+                      f = true;
+                      break;
+                   }
+                   point w;
+                   w.x=nx;
+                   w.y=ny;
+                   w.dis=dis+1;
+                   q.push(w);
+                   arr[nx][ny]=2;
+              }
+         }
+    }
+}
+int main(){
+  int t;
+  cin>>t;
+  for(int i=1;i<=t;i++){
+    find();
+    if(!f) ans = -1;
+    cout<<"Case #"<<i<<" "<<ans<<"\n";
+    f = false;
+  }
+}
+// Link : https://www.cnblogs.com/kingshow123/p/practicec2.html
