@@ -1,22 +1,33 @@
-/*
-struct Node {
+#include<iostream>
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+using namespace std;
+int ans;
+struct Node{
     int data;
     Node *left;
-    Node *right;
-
-    Node(int val) {
-        data = val;
-        left = right = NULL;
-    }
+    Node *right;  
 };
-*/
-
-// return the Kth largest element in the given BST rooted at 'root'
-class Solution
-{
-    public:
-    int ans;
-    void find(Node *root,int K,int &cnt){
+Node *newnode(int a){
+   Node *node = new Node;
+   node->data = a;
+   node->right=NULL;
+   node->left=NULL;
+   return node;
+}
+Node *insert(Node *root,int a){
+    if(root==NULL){
+       return newnode(a);
+    }
+    if(a<root->data){
+        root->left = insert(root->left,a);
+    }else root->right = insert(root->right,a);
+    return root;
+}
+void find(Node *root,int K,int &cnt){
         if(root==NULL || cnt>K) return;
         find(root->right,K,cnt);
         cnt++;
@@ -25,12 +36,26 @@ class Solution
             return;
         }
         find(root->left,K,cnt);
-    }
-    int kthLargest(Node *root, int K)
-    {
+}
+int main(){
+     int t;
+     cin>>t;
+     while(t--){
+        int n,a;
+        cin>>n;
+        cin>>a;
+        Node *root=NULL;
+        root = insert(root,a);
+        for(int i=0;i<n-1;i++){
+            cin>>a;
+            insert(root,a);
+        }
+        int k;
+        cin>>k;
         int cnt=0;
-       find(root,K,cnt);
-       return ans;
-    }
-};
-//Link : https://www.geeksforgeeks.org/problems/kth-largest-element-in-bst/1
+        find(root,k,cnt);
+        cout<<ans;
+     }
+}
+// https://github.com/MohMaya/TargetSMSNG?tab=readme-ov-file
+// 35
