@@ -1,0 +1,65 @@
+#include<iostream>
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+using namespace std;
+struct Node{
+  int data;
+  Node *next;
+};
+Node *newnode(int a){
+    Node * node = new Node;
+    node->data = a;
+    node->next = NULL;
+    return node;
+}
+Node *insert(Node *head,int a){
+  if(head==NULL){
+     return newnode(a);
+  }
+  head->next = insert(head->next,a);
+  return head;
+}
+Node *find(Node *head,int k){
+     Node * c = head;
+     while(c!=NULL){
+        if(c->data==k) break;
+        c = c->next;
+     }
+     return c;
+}
+void del(Node *head){
+    head->data = head->next->data;
+    head->next = head->next->next;
+}
+int main(){
+  int t;
+  cin>>t;
+  while(t--){
+       int n;
+  cin>>n;
+  int a;
+  cin>>a;
+  Node *head = NULL;
+  head = insert(head,a);
+  for(int i=0;i<n-1;i++){
+     cin>>a;
+    insert(head,a);
+  }
+  int k;
+  cin>>k;
+  Node *target = find(head,k);
+  del(target);
+  while(head!=NULL){
+    cout<<head->data<<" ";
+    head = head->next;
+  }
+  cout<<"\n";
+
+  }
+  
+}
+// Link : https://github.com/MohMaya/TargetSMSNG?tab=readme-ov-file
+// 34
