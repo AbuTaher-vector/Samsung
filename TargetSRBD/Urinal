@@ -1,0 +1,36 @@
+#include<iostream>
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+using namespace std;
+void find(int n,vector<int>&v,int k){
+    if(k==0) return;
+    int l = 0,last,ans=0;
+    for(int i=0;i<n;i++){
+      if(v[i]==0) l++;
+      else l=0;
+      if(l>=ans){
+         ans=l;
+         last=i;
+      }
+    }
+    int start = last-ans+1;
+    int mid = (start+last)/2;
+    v[mid]=1;
+    find(n,v,k-1);
+}
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+       int n,k;
+       cin>>n>>k;
+       vector<int>v(n);
+       find(n,v,k);
+       for(int i=0;i<n;i++) cout<<v[i]<<" ";
+       cout<<"\n";
+    }
+}
+// Link : https://brainly.com/question/14469421
