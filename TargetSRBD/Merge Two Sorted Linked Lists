@@ -1,0 +1,69 @@
+#include<iostream>
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+using namespace std;
+struct Node{
+  int data;
+  Node *next;
+};
+Node *newnode(int a){
+     Node *node = new Node;
+     node->data = a;
+     node->next = NULL;
+     return node;
+}
+Node *insert(Node *head,int a){
+    if(head==NULL){
+      return newnode(a);
+    }
+    head->next = insert(head->next,a);
+    return head; 
+
+}
+void print(Node *head){
+  while(head!=NULL){
+    cout<<head->data<<" ";
+    head = head->next;
+  }
+  cout<<"\n";
+}
+Node *merge(Node *head1,Node *head2){
+      if(head1==NULL) return head2;
+      if(head2==NULL) return head1;
+      Node *target = new Node;
+      if(head1->data<=head2->data){
+        target = head1;
+        target->next = merge(head1->next, head2);
+      }else{
+         target = head2;
+         target->next = merge(head2->next, head1);
+      }
+      return target;
+}
+int main(){
+    int n;
+    cin>>n;
+    Node *head1 = NULL;
+    int a;
+    cin>>a;
+    head1 = insert(head1,a);
+    for(int i=0;i<n-1;i++){
+         cin>>a;
+         insert(head1,a);
+    }
+    int m;
+    cin>>m;
+    cin>>a;
+    Node *head2 = NULL;
+    head2 = insert(head2,a);
+    for(int i=0;i<m-1;i++){
+      cin>>a;
+      insert(head2,a);
+    }
+    Node *ans = merge(head1,head2);
+    print(ans);
+}
+// Link : https://www.scaler.com/topics/merge-two-sorted-linked-lists/
