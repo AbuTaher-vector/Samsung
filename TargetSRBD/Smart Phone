@@ -1,0 +1,50 @@
+#include<iostream>
+#include<queue>
+using namespace std;
+bool vis[10000];
+int main(){
+   int t;
+   cin>>t;
+   for(int k=1;k<=t;k++){
+      int n,m,lim;
+      cin>>n>>m>>lim;
+      vector<int>v(n),o(m);
+      queue<pair<int,int> > q;
+      for(int i=0;i<n;i++) {
+        cin>>v[i];
+        q.push(make_pair(v[i],1));
+      }
+      for(int i=0;i<m;i++) cin>>o[i];
+      int a;
+      cin>>a;
+      int ans=0;
+      while(!q.empty()){
+          int x = q.front().first;
+          int l = q.front().second;
+          q.pop();
+          if(x==a){
+            ans=l;
+            break;
+          }
+          if(!vis[x]){
+             for(int i=0;i<n;i++){
+                q.push(make_pair(x*10+v[i],l+1));
+             }
+             for(int i=0;i<m;i++){
+              for(int j=0;j<n;j++){
+                 if(o[i]==1) q.push(make_pair(x+v[j],l+3));
+                 if(o[i]==2) q.push(make_pair(x-v[j],l+3));
+                 if(o[i]==3) q.push(make_pair(x*v[j],l+3));
+                 if(o[i]==4){
+                    if(v[j]!=0) q.push(make_pair(x/v[j],l+3));
+                 } 
+              }
+             }
+             vis[x]=1;
+          }
+      }
+      cout<<ans<<"\n";
+
+   }
+}
+// Link : https://www.careercup.com/question?id=5680648437104640
