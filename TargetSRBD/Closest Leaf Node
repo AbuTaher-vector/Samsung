@@ -1,0 +1,60 @@
+#include<iostream>
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+using namespace std;
+int ans = INT_MAX;
+struct Node{
+  int data;
+  Node *left;
+  Node *right;
+};
+Node *insert(int data){
+  Node *node = new Node;
+  node->data = data;
+  node->left = NULL;
+  node->right = NULL;
+  return node;
+}
+void subtree(Node *root,int k){
+    if(root==NULL) return;
+    if(root->left==NULL && root->right==NULL){
+       ans=min(ans,k);
+       return;
+    }
+    subtree(root->left,k+1);
+    subtree(root->right,k+1);
+}
+int find(Node *root,Node *target,int k){
+    if(root==NULL) return -1;
+    if(root == target){
+        subtree(root,k);
+        return 0;
+    }
+    int dl = find(root->left,target,k);
+    if(dl!=-1){
+        subtree(root->right,k+2);
+        return 1+dl;
+    } 
+    int dr = find(root->right,target,k);
+    if(dr!=-1){
+        subtree(root->left,k+2);
+        return 1+dr;
+    } 
+    return -1; 
+}  
+int main(){
+   Node *root = insert(3);
+   root->left = insert(5);
+   root->left->right = insert(2);
+   root->left->right->left = insert(7);
+   root->left->right->right = insert(4);
+   root->left->right->left->left = insert(9);
+   root->left->right->right->right = insert(10);
+   root->right = insert(1);
+   find(root,root->left,0);
+   cout<<ans<<"\n";
+}
+// Link : https://www.geeksforgeeks.org/closest-leaf-to-a-given-node-in-binary-tree/
