@@ -1,0 +1,27 @@
+#include<iostream>
+#include<climits>
+#include<cmath>
+#include<cstdio>
+#include<algorithm>
+#include<vector>
+using namespace std;
+long long int dp[100][100];
+long long int arr[100][100];
+int n,m;
+long long int find(int i,int j){
+     if(i==0 && j==0) return arr[i][j];
+     if(i<0 || j<0) return -1;
+     if(dp[i][j]!=0) return dp[i][j];
+
+     long long int a = arr[i][j]+find(i-1,j);
+     long long int b = arr[i][j]+find(i,j-1);
+     return dp[i][j] = max(a,b);
+}
+int main(){
+   cin>>n>>m;
+   for(int i=0;i<n;i++){
+    for(int j=0;j<n;j++) cin>>arr[i][j];
+   }
+   cout<<find(n-1,m-1)<<"\n";
+}
+// Link : https://www.careercup.com/question?id=21423662
